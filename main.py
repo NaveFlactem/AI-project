@@ -6,25 +6,31 @@ class ChatbotGUI:
         self.root = root
         self.root.title("Chatbot GUI")
         
-        self.chat_log = Listbox(root, width=50, height=20)
+        #initialize the chatbox
+        self.chat_log = Listbox(root, width=100, height=20)
         self.chat_log.pack(padx=10, pady=10)
+        #color
+        self.chat_log.config(bg="light gray", fg="gray", justify=tk.LEFT, activestyle=tk.NONE, highlightthickness=0, highlightcolor="light gray", highlightbackground="light gray", bd=0, font=("Verdana", 12))
+
         
+        #add the scroll feature
         self.scrollbar = Scrollbar(root, command=self.chat_log.yview)
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        
         self.chat_log.config(yscrollcommand=self.scrollbar.set)
         
+        #Entry box
         self.entry = Entry(root, width=40)
         self.entry.pack(padx=10, pady=10)
         
+        #Send Button
         self.send_button = Button(root, text="Send", command=self.send_message)
         self.send_button.pack()
         self.entry.bind("<Return>", lambda x: self.send_message())
         
-        ####Place Holder
+        ####Place Holder responses
         self.chatbot_responses = {
             "hello": "Hello there!",
-            "how are you": "I'm just a chatbot, but I'm here to help!",
+            "how are you": "Good enough",
         }
         ######
         

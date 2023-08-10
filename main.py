@@ -1,5 +1,52 @@
-import os
-import openai
-openai.organization = "org-3oHj3jV2OQX6QX6QX6QX6QX6"
-openai.api_key = os.getenv("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")
-openai.Model.list()
+import tkinter as tk
+from tkinter import Scrollbar, Listbox, Entry, Button
+
+class ChatbotGUI:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Chatbot GUI")
+        
+        self.chat_log = Listbox(root, width=50, height=20)
+        self.chat_log.pack(padx=10, pady=10)
+        
+        self.scrollbar = Scrollbar(root, command=self.chat_log.yview)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.chat_log.config(yscrollcommand=self.scrollbar.set)
+        
+        self.entry = Entry(root, width=40)
+        self.entry.pack(padx=10, pady=10)
+        
+        self.send_button = Button(root, text="Send", command=self.send_message)
+        self.send_button.pack()
+        self.entry.bind("<Return>", lambda x: self.send_message())
+        
+        ####Place Holder
+        self.chatbot_responses = {
+            "hello": "Hello there!",
+            "how are you": "I'm just a chatbot, but I'm here to help!",
+        }
+        ######
+        
+    def send_message(self):
+        user_message = self.entry.get()
+        self.chat_log.insert(tk.END, "You: " + user_message)
+        self.entry.delete(0, tk.END)
+        
+        bot_response = self.get_bot_response(user_message)
+        self.chat_log.insert(tk.END, "Bot: " + bot_response)
+        
+
+
+
+    def get_bot_response(self, user_message):
+        user_message = user_message.lower()
+        response = self.chatbot_responses.get(user_message, "I'm not sure how to respond to that.")
+        return response
+
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ChatbotGUI(root)
+    root.mainloop()

@@ -5,6 +5,7 @@ import pickle
 import numpy as np
 import nltk
 import tkinter as tk
+import spellchecker as sp
 from nltk.stem import WordNetLemmatizer
 from keras.models import load_model
 
@@ -33,6 +34,14 @@ class ChatbotGUI:
         self.words = pickle.load(open('words.pkl', 'rb'))
         self.classes = pickle.load(open('classes.pkl', 'rb'))
         self.model = load_model('chatbot_model.h5')
+
+    def spell_check(self, sentence):
+        spell = sp.SpellChecker()
+        sentence_words = nltk.word_tokenize(sentence)
+        misspelled = spell.unknown(sentence_words)
+        for word in misspelled:
+            sentence = sentence.replace(word, spell.correction(word))
+        return sentence
 
     def clean_up_sentence(self, sentence):
         sentence_words = nltk.word_tokenize(sentence)

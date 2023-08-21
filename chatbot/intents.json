@@ -1,6 +1,6 @@
 {"intents": [
     {"tag": "greeting",
-     "patterns": ["Hi there", "How are you", "Is anyone there?","Hey","Hola", "Hello", "Good day"],
+     "patterns": ["Hi there", "How are you", "Is anyone there?","Hey","Hola", "Hello", "Good day", "What's up"],
      "responses": ["Hello", "Good to see you again", "Hi there, how can I help?"],
      "context": [""]
     },
@@ -15,8 +15,8 @@
      "context": [""]
     },
     {"tag": "query",
-     "patterns": ["What is Simplilearn?"],
-     "responses": ["Simplilearn is the popular online Bootcamp & online courses learning platform "],
+     "patterns": ["What is this?"],
+     "responses": ["This is an AI made for practice with Python and Machine Learning"],
      "context": [""]
     } 
 ]}

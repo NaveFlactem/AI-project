@@ -20,8 +20,9 @@ nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer
 
 lemmatizer = WordNetLemmatizer()
-      
-intents = json.loads(open(r'C:\Users\evanm\Dropbox\Project\AI-project\intents.json').read())
+
+word_dir = os.path.dirname(os.path.abspath(__file__))
+intents = json.loads(open(os.path.join(word_dir, 'intents.json')).read())
 
 words = []
 classes = []

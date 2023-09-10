@@ -1,90 +1,89 @@
-import os
-import random
 import json
-import pickle
-import numpy as np
-import nltk
 import tkinter as tk
-import spellchecker as sp
-from nltk.stem import WordNetLemmatizer
-from keras.models import load_model
+from tkinter import simpledialog
+from tkinter import font
+from difflib import get_close_matches
 
-class ChatbotGUI:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Chatbot GUI")
+def load_knowledge_base(file_path: str) -> dict:
+    with open('knowledge_base.json', 'r') as f:
+        knowledge_base = json.load(f)
+    return knowledge_base
 
-        self.chat_history = tk.Listbox(self.root, width=50, height=20)
-        self.chat_history.pack(pady=10)
+def save_knowledge_base(file_path: str, knowledge_base: dict) -> None:
+    with open('knowledge_base.json', 'w') as f:
+        json.dump(knowledge_base, f, indent=2)
 
-        self.scrollbar = tk.Scrollbar(self.root, command=self.chat_history.yview)
-        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        self.chat_history.config(yscrollcommand=self.scrollbar.set)
+def find_best_match(user_question: str, questions: list[str]) -> str | None:
+    matches: list = get_close_matches(user_question, questions, n=1, cutoff=0.6)
+    return matches[0] if matches else None
 
-        self.user_input = tk.Entry(self.root, width=50)
-        self.user_input.pack(pady=10)
-        self.user_input.bind("<Return>", lambda event: self.send_message())
+def get_answer_for_question(question: str, knowledge_base: dict) -> str | None:
+    for q in knowledge_base["questions"]:
+        if q['question'] == question:
+            return q['answer']
 
-        self.send_button = tk.Button(self.root, text="Send", command=self.send_message)
-        self.send_button.pack()
+def collect_user_input(user_input):
+    user_response = simpledialog.askstring("User Input", user_input)
+    return user_response
 
-        self.lemmatizer = WordNetLemmatizer()
-        script_directory = os.path.dirname(os.path.abspath(__file__))
-        self.intents = json.loads(open(os.path.join(script_directory, 'intents.json')).read())
-        self.words = pickle.load(open('words.pkl', 'rb'))
-        self.classes = pickle.load(open('classes.pkl', 'rb'))
-        self.model = load_model('chatbot_model.h5')
+def update_chat(user_input, chat_text, user_entry):
+    user_message = f"User: {user_input}\n"
+    chat_text.config(state=tk.NORMAL)
+    chat_text.insert(tk.END, user_message)
+    chat_text.config(state=tk.DISABLED)
 
-    def spell_check(self, sentence):
-        spell = sp.SpellChecker()
-        sentence_words = nltk.word_tokenize(sentence)
-        misspelled = spell.unknown(sentence_words)
-        for word in misspelled:
-            sentence = sentence.replace(word, spell.correction(word))
-        return sentence
+    best_match: str | None = find_best_match(user_input, [q['question'] for q in knowledge_base["questions"]])
 
-    def clean_up_sentence(self, sentence):
-        sentence_words = nltk.word_tokenize(sentence)
-        sentence_words = [self.lemmatizer.lemmatize(word) for word in sentence_words]
-        return sentence_words
+    if best_match:
+        answer: str = get_answer_for_question(best_match, knowledge_base)
+        response = f"Bot: {answer}\n"
+    else:
+        response = "Bot: Sorry, I don't know what to say. Can you teach me?\n"
+        chat_text.config(state=tk.NORMAL)
+        chat_text.insert(tk.END, response)
+        chat_text.config(state=tk.DISABLED)
+        
+        response = "\nType answer to your prompt or type 'skip' to skip: "
+        chat_text.config(state=tk.NORMAL)
+        chat_text.insert(tk.END, response)
+        chat_text.config(state=tk.DISABLED)
+        
+        new_answer: str = collect_user_input(response)
 
-    def bag_of_words(self, sentence):
-        sentence_words = self.clean_up_sentence(sentence)
-        bag = [0] * len(self.words)
-        for w in sentence_words:
-            for i, word in enumerate(self.words):
-                if word == w:
-                    bag[i] = 1
-        return np.array(bag)
+        if new_answer and new_answer.lower() != 'skip':
+            knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
+            save_knowledge_base('knowledge_base.json', knowledge_base)
+            response = "\nBot: Thanks, I'll remember that.\n"
+        else:
+            response = "\nBot: Okay, I'll skip.\n"
 
-    def predict_class(self, sentence):
-        bow = self.bag_of_words(sentence)
-        res = self.model.predict(np.array([bow]))[0]
-        ERROR_THRESHOLD = 0.25
-        results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
-        results.sort(key=lambda x: x[1], reverse=True)
-        return_list = []
-        for r in results:
-            return_list.append({'intent': self.classes[r[0]], 'probability': str(r[1])})
-        return return_list
+    chat_text.config(state=tk.NORMAL)
+    chat_text.insert(tk.END, response)
+    chat_text.config(state=tk.DISABLED)
+    user_entry.delete(0, tk.END)
 
-    def get_response(self, intents_list, intents_json):
-        tag = intents_list[0]['intent']
-        list_of_intents = intents_json['intents']
-        for i in list_of_intents:
-            if i['tag'] == tag:
-                result = random.choice(i['responses'])
-                break
-        return result
-
-    def send_message(self):
-        message = self.user_input.get()
-        self.user_input.delete(0, tk.END)
-        self.chat_history.insert(tk.END, "You: " + message)
-        self.chat_history.insert(tk.END, "Bot: " + self.get_response(self.predict_class(message), self.intents))
-        self.chat_history.see(tk.END)
+def send_message(event):
+    user_input = user_entry.get()
+    if user_input.lower() == 'exit':
+        root.quit()
+    update_chat(user_input, chat_text, user_entry)
 
 if __name__ == "__main__":
+    knowledge_base: dict = load_knowledge_base('knowledge_base.json')
+
     root = tk.Tk()
-    app = ChatbotGUI(root)
+    root.title("Chat Bot")
+
+    initial_width = 800
+    initial_height = 600
+
+    root.geometry(f"{initial_width}x{initial_height}")
+
+    chat_text = tk.Text(root, state=tk.DISABLED)
+    chat_text.pack()
+
+    user_entry = tk.Entry(root)
+    user_entry.pack()
+    user_entry.bind("<Return>", send_message)
+
     root.mainloop()

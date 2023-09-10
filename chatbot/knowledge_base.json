@@ -1,0 +1,56 @@
+{
+  "questions": [
+    {
+      "question": "hello",
+      "answer": "Hey"
+    },
+    {
+      "question": "hey",
+      "answer": "hey"
+    },
+    {
+      "question": "Hey There",
+      "answer": "Hey what's up"
+    },
+    {
+      "question": "how are you?",
+      "answer": "good thanks for asking! How about yourself?"
+    },
+    {
+      "question": "what's up?",
+      "answer": "Not much"
+    },
+    {
+      "question": "v",
+      "answer": "& C:/Users/evanm/AppData/Local/Programs/Python/Python311/python.exe c:/Users/evanm/Dropbox/Project/AI-project/chatbot/main.py"
+    },
+    {
+      "question": "what's the weather like today?",
+      "answer": "I don't know, look out your window. I can't access your computer weather app"
+    },
+    {
+      "question": "f",
+      "answer": "that is, in fact, a letter"
+    },
+    {
+      "question": "g",
+      "answer": "It's a cool letter. Swirls around"
+    },
+    {
+      "question": "I don't have a window",
+      "answer": "not my problem"
+    },
+    {
+      "question": "what can you do?",
+      "answer": "Respond to you"
+    },
+    {
+      "question": "wazzup",
+      "answer": "wazzup"
+    },
+    {
+      "question": "do you take credit card?",
+      "answer": "what? that makes no sense"
+    }
+  ]
+}

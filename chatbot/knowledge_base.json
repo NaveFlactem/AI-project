@@ -21,10 +21,6 @@
       "answer": "Not much"
     },
     {
-      "question": "v",
-      "answer": "& C:/Users/evanm/AppData/Local/Programs/Python/Python311/python.exe c:/Users/evanm/Dropbox/Project/AI-project/chatbot/main.py"
-    },
-    {
       "question": "what's the weather like today?",
       "answer": "I don't know, look out your window. I can't access your computer weather app"
     },
@@ -51,6 +47,54 @@
     {
       "question": "do you take credit card?",
       "answer": "what? that makes no sense"
+    },
+    {
+      "question": "",
+      "answer": "f"
+    },
+    {
+      "question": "",
+      "answer": "ff"
+    },
+    {
+      "question": "d",
+      "answer": "d"
+    },
+    {
+      "question": "c",
+      "answer": "c"
+    },
+    {
+      "question": "how is it going",
+      "answer": "going well"
+    },
+    {
+      "question": "",
+      "answer": "f"
+    },
+    {
+      "question": "great",
+      "answer": "fantastic"
+    },
+    {
+      "question": "User: hey\n",
+      "answer": "Hey!"
+    },
+    {
+      "question": "User: hey\nUser: hey\n",
+      "answer": "Hey! again"
+    },
+    {
+      "question": "User: hey\nUser: hey\nUser: hey\n",
+      "answer": "Would you like to ask something?"
+    },
+    {
+      "question": "User: how's it going?\n\nUser: what should I do today?\n",
+      "answer": "Deciding what to do today depends on your personal interests, responsibilities, and circumstances. Here are some general suggestions, but keep in mind that the best choice for you will depend on your specific situation:\n\nPrioritize Responsibilities:\n\nIf you have work or school commitments, prioritize those tasks first. Make a to-do list to stay organized.\nExercise:\n\nPhysical activity is important for your health. Consider going for a walk, run, bike ride, or hitting the gym.\nHobbies and Interests:\n\nSpend time on activities you enjoy, whether it's reading, painting, playing music, gardening, or any other hobby.\nLearn Something New:\n\nLearning is a great way to spend your time. You could pick up a new skill, language, or explore a subject you're interested in.\nSocialize:\n\nSpend time with friends or family, either in person or virtually. Social connections are vital for mental well-being.\nRelax and Unwind:\n\nIt's important to take breaks and relax. Consider meditation, yoga, or simply enjoying a good book or movie.\nGive Back:\n\nConsider doing something for others, like volunteering or helping a neighbor in need.\nPlan for the Future:\n\nUse some of your time to set goals and plan for the future. This could involve financial planning, career development, or personal growth.\nExplore Your Local Area:\n\nIf you have the opportunity, explore your local area. Visit a museum, park, or try a new restaurant.\nSelf-Care:\n\nMake sure to take care of yourself. Get enough sleep, eat well, and do things that make you feel good.\nProductivity Tasks:\n\nTackle tasks you've been putting off, like cleaning, organizing, or decluttering.\nCreative Projects:\n\nIf you're creative, spend some time working on a project, whether it's writing, drawing, crafting, or designing.\nEducation and Career Development:\n\nIf you're looking to advance in your career or education, consider dedicating time to professional development or studying.\nRemember that balance is key. Try to mix activities that are productive, enjoyable, and necessary for your well-being. Your ideal day will depend on your unique circumstances and goals."
+    },
+    {
+      "question": "User: hey\n\nUser: whats up\n\nUser: whats up\n\nUser: anything else you want to say\n",
+      "answer": "I'll be able to say more if you ask a question"
     }
   ]
 }
